@@ -5,9 +5,24 @@
 
 <mapper namespace="com.example.board.mapper.BoardMapper">
 
+    <!-- 게시글 등록 -->
     <insert id="insertBoard" parameterType="com.example.board.domain.BoardV0">
         INSERT INTO t_board (title, content, writerNm, regDate, delYn)
         VALUES (#{title}, #{content}, #{writerNm}, NOW(), 'N')
     </insert>
+
+    <!-- 게시글 목록 조회 -->
+    <select id="selectBoardList" resultType="com.example.board.domain.BoardV0">
+        SELECT 
+            idx,
+            title,
+            content,
+            writerNm,
+            regDate,
+            delYn
+        FROM t_board 
+        WHERE delYn = 'N'
+        ORDER BY regDate DESC
+    </select>
 
 </mapper>

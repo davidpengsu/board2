@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -16,6 +17,22 @@ public class BoardController {
 
     private final BoardMapper boardMapper;
 
+    // 게시글 목록 조회 - GET /board
+    @GetMapping
+    public ResponseEntity<?> getBoardList() {
+        
+        List<BoardV0> boardList = boardMapper.selectBoardList();
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("message", "게시글 목록 조회가 완료되었습니다.");
+        response.put("data", boardList);
+        response.put("totalCount", boardList.size());
+        
+        return ResponseEntity.ok(response);
+    }
+
+    // 게시글 등록 - POST /board
     @PostMapping
     public ResponseEntity<?> insertBoard(@Valid @RequestBody BoardV0 board) {
         // @Valid 어노테이션으로 검증 실패 시 자동으로 MethodArgumentNotValidException 발생

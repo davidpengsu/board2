@@ -3,10 +3,17 @@ package com.example.board.domain;
 import lombok.Data;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 @Data
 public class BoardV0 {
     
+    // 조회 시에만 사용되는 필드 (등록 시에는 DB에서 자동 생성)
+    private Long idx;                   // 게시글 고유 ID (AUTO_INCREMENT)
+    private LocalDateTime regDate;      // 등록일시 (NOW())
+    private String delYn;               // 삭제 여부 ('N')
+    
+    // 등록/수정 시 필수 입력 필드
     @NotBlank(message = "제목은 필수 입력값입니다.")
     @Size(max = 100, message = "제목은 100자를 초과할 수 없습니다.")
     private String title;
