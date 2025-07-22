@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.board.mapper.CommentMapper">
+
+    <!-- 댓글 등록 -->
+    <insert id="insertComment" parameterType="com.example.board.domain.CommentV0">
+        INSERT INTO t_comment (boardIdx, comment, writerName, regDate, delYn)
+        VALUES (#{boardIdx}, #{comment}, #{writerName}, NOW(), 'N')
+    </insert>
+
+    <!-- 특정 게시글의 댓글 목록 조회 -->
+    <select id="selectCommentsByBoardIdx" parameterType="Long" resultType="com.example.board.domain.CommentV0">
+        SELECT 
+            idx,
+            boardIdx,
+            comment,
+            writerName,
+            regDate,
+            delYn
+        FROM t_comment 
+        WHERE boardIdx = #{boardIdx} 
+          AND delYn = 'N'
+        ORDER BY regDate ASC
+    </select>
+
+    <!-- 모든 댓글 목록 조회 -->
+    <select id="selectAllComments" resultType="com.example.board.domain.CommentV0">
+        SELECT 
+            idx,
+            boardIdx,
+            comment,
+            writerName,
+            regDate,
+            delYn
+        FROM t_comment 
+        WHERE delYn = 'N'
+        ORDER BY regDate DESC
+    </select>
+
+    <!-- 댓글 삭제 (논리 삭제) -->
+    <update id="deleteComment" parameterType="Long">
+        UPDATE t_comment 
+        SET delYn = 'Y' 
+        WHERE idx = #{idx}
+    </update>
+
+</mapper>
