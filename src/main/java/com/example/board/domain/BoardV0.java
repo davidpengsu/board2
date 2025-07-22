@@ -13,6 +13,10 @@ public class BoardV0 {
     private LocalDateTime regDate;      // 등록일시 (NOW())
     private String delYn;               // 삭제 여부 ('N')
     
+    // 계산된 필드들 (SELECT 시에만 계산되는 값들)
+    private Integer commentCount;       // 댓글 개수 (LEFT JOIN + COUNT)
+    private Integer isNew;              // 신규 게시글 여부 (1: 오늘 작성, 0: 이전 작성)
+    
     // 등록/수정 시 필수 입력 필드
     @NotBlank(message = "제목은 필수 입력값입니다.")
     @Size(max = 100, message = "제목은 100자를 초과할 수 없습니다.")
