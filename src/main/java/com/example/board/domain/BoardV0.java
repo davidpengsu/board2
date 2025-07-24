@@ -32,6 +32,12 @@ public class BoardV0 extends BaseEntity {
     private String writerNm;
     
     /**
+     * 작성자 ID (로그인한 사용자의 ID)
+     * 인증된 사용자만 게시글을 작성할 수 있으므로 필수값
+     */
+    private String writerId;
+    
+    /**
      * LSP 적용: 부모 클래스의 동작을 확장하되 기본 동작은 변경하지 않습니다.
      * 게시글이 신규인지 확인하는 비즈니스 로직을 추가
      */

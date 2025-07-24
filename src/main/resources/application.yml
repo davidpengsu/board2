@@ -14,3 +14,15 @@ mybatis:
 
   configuration:
     map-underscore-to-camel-case: true
+
+# JWT 설정 추가
+jwt:
+  secret: mySecretKeyForJwtTokenGenerationThatIsVerySecureAndLongEnoughForHS512Algorithm
+  token-validity-in-seconds: 86400  # 24시간
+
+# 로깅 설정 (디버그용)
+logging:
+  level:
+    com.example.board: DEBUG
+    org.springframework.security: DEBUG
+    org.mybatis: DEBUG

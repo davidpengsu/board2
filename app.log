@@ -1,0 +1,230 @@
+Starting a Gradle Daemon (subsequent builds will be faster)
+> Task :compileJava UP-TO-DATE
+> Task :processResources UP-TO-DATE
+> Task :classes UP-TO-DATE
+> Task :resolveMainClassName UP-TO-DATE
+
+> Task :bootRun
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.4.7)
+
+2025-07-24T16:41:14.232+09:00  INFO 14946 --- [           main] com.example.board.BoardApplication       : Starting BoardApplication using Java 21.0.7 with PID 14946 (/Users/david/Documents/study/board2/build/classes/java/main started by david in /Users/david/Documents/study/board2)
+2025-07-24T16:41:14.233+09:00 DEBUG 14946 --- [           main] com.example.board.BoardApplication       : Running with Spring Boot v3.4.7, Spring v6.2.8
+2025-07-24T16:41:14.234+09:00  INFO 14946 --- [           main] com.example.board.BoardApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-07-24T16:41:14.466+09:00 DEBUG 14946 --- [           main] o.m.s.mapper.ClassPathMapperScanner      : Identified candidate component class: file [/Users/david/Documents/study/board2/build/classes/java/main/com/example/board/mapper/BoardMapper.class]
+2025-07-24T16:41:14.466+09:00 DEBUG 14946 --- [           main] o.m.s.mapper.ClassPathMapperScanner      : Identified candidate component class: file [/Users/david/Documents/study/board2/build/classes/java/main/com/example/board/mapper/CommentMapper.class]
+2025-07-24T16:41:14.466+09:00 DEBUG 14946 --- [           main] o.m.s.mapper.ClassPathMapperScanner      : Identified candidate component class: file [/Users/david/Documents/study/board2/build/classes/java/main/com/example/board/mapper/UserMapper.class]
+2025-07-24T16:41:14.467+09:00 DEBUG 14946 --- [           main] o.m.s.mapper.ClassPathMapperScanner      : Creating MapperFactoryBean with name 'boardMapper' and 'com.example.board.mapper.BoardMapper' mapperInterface
+2025-07-24T16:41:14.467+09:00 DEBUG 14946 --- [           main] o.m.s.mapper.ClassPathMapperScanner      : Enabling autowire by type for MapperFactoryBean with name 'boardMapper'.
+2025-07-24T16:41:14.467+09:00 DEBUG 14946 --- [           main] o.m.s.mapper.ClassPathMapperScanner      : Creating MapperFactoryBean with name 'commentMapper' and 'com.example.board.mapper.CommentMapper' mapperInterface
+2025-07-24T16:41:14.467+09:00 DEBUG 14946 --- [           main] o.m.s.mapper.ClassPathMapperScanner      : Enabling autowire by type for MapperFactoryBean with name 'commentMapper'.
+2025-07-24T16:41:14.467+09:00 DEBUG 14946 --- [           main] o.m.s.mapper.ClassPathMapperScanner      : Creating MapperFactoryBean with name 'userMapper' and 'com.example.board.mapper.UserMapper' mapperInterface
+2025-07-24T16:41:14.467+09:00 DEBUG 14946 --- [           main] o.m.s.mapper.ClassPathMapperScanner      : Enabling autowire by type for MapperFactoryBean with name 'userMapper'.
+2025-07-24T16:41:14.590+09:00  INFO 14946 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-07-24T16:41:14.596+09:00  INFO 14946 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-07-24T16:41:14.596+09:00  INFO 14946 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-07-24T16:41:14.610+09:00  INFO 14946 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-07-24T16:41:14.610+09:00  INFO 14946 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 362 ms
+2025-07-24T16:41:14.627+09:00 DEBUG 14946 --- [           main] c.e.b.security.JwtAuthenticationFilter   : Filter 'jwtAuthenticationFilter' configured for use
+2025-07-24T16:41:14.704+09:00 DEBUG 14946 --- [           main] o.mybatis.spring.SqlSessionFactoryBean   : Parsed mapper file: 'file [/Users/david/Documents/study/board2/build/resources/main/mapper/BoardMapper.xml]'
+2025-07-24T16:41:14.707+09:00 DEBUG 14946 --- [           main] o.mybatis.spring.SqlSessionFactoryBean   : Parsed mapper file: 'file [/Users/david/Documents/study/board2/build/resources/main/mapper/CommentMapper.xml]'
+2025-07-24T16:41:14.711+09:00 DEBUG 14946 --- [           main] o.mybatis.spring.SqlSessionFactoryBean   : Parsed mapper file: 'file [/Users/david/Documents/study/board2/build/resources/main/mapper/UserMapper.xml]'
+2025-07-24T16:41:14.746+09:00  WARN 14946 --- [           main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 5c2aee2c-62f1-4027-b7ec-5c617a11fe2a
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-07-24T16:41:14.748+09:00  INFO 14946 --- [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-07-24T16:41:14.824+09:00 DEBUG 14946 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2025-07-24T16:41:14.884+09:00  INFO 14946 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-07-24T16:41:14.887+09:00  INFO 14946 --- [           main] com.example.board.BoardApplication       : Started BoardApplication in 0.797 seconds (process running for 0.895)
+2025-07-24T16:41:39.834+09:00  INFO 14946 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-24T16:41:39.834+09:00  INFO 14946 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-07-24T16:41:39.835+09:00  INFO 14946 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-07-24T16:41:39.841+09:00 DEBUG 14946 --- [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /board
+2025-07-24T16:41:39.843+09:00 DEBUG 14946 --- [nio-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-07-24T16:41:39.844+09:00 DEBUG 14946 --- [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /board
+2025-07-24T16:41:39.851+09:00 DEBUG 14946 --- [nio-8080-exec-1] org.mybatis.spring.SqlSessionUtils       : Creating a new SqlSession
+2025-07-24T16:41:39.852+09:00 DEBUG 14946 --- [nio-8080-exec-1] org.mybatis.spring.SqlSessionUtils       : SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3dbbf9af] was not registered for synchronization because synchronization is not active
+2025-07-24T16:41:39.855+09:00  INFO 14946 --- [nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-07-24T16:41:40.046+09:00  INFO 14946 --- [nio-8080-exec-1] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2bdb267d
+2025-07-24T16:41:40.047+09:00  INFO 14946 --- [nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-07-24T16:41:40.049+09:00 DEBUG 14946 --- [nio-8080-exec-1] o.m.s.t.SpringManagedTransaction         : JDBC Connection [HikariProxyConnection@1135604271 wrapping com.mysql.cj.jdbc.ConnectionImpl@2bdb267d] will not be managed by Spring
+2025-07-24T16:41:40.051+09:00 DEBUG 14946 --- [nio-8080-exec-1] c.e.b.m.BoardMapper.selectBoardList      : ==>  Preparing: SELECT b.idx, b.title, b.content, u.username AS writerNm, b.writer_id, b.regDate, b.delYn, -- 댓글 개수 계산 (LEFT JOIN + COUNT) COALESCE(COUNT(c.idx), 0) AS commentCount, -- 신규 게시글 여부 (오늘 작성된 글이면 1, 아니면 0) CASE WHEN DATE_FORMAT(b.regDate, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d') THEN 1 ELSE 0 END AS isNew FROM t_board b LEFT JOIN users u ON b.writer_id = u.user_id AND u.del_yn = 'N' AND u.active_yn = 'Y' LEFT JOIN t_comment c ON b.idx = c.boardIdx AND c.delYn = 'N' WHERE b.delYn = 'N' GROUP BY b.idx, b.title, b.content, u.username, b.writer_id, b.regDate, b.delYn ORDER BY b.regDate DESC
+2025-07-24T16:41:40.060+09:00 DEBUG 14946 --- [nio-8080-exec-1] c.e.b.m.BoardMapper.selectBoardList      : ==> Parameters: 
+2025-07-24T16:41:40.076+09:00 DEBUG 14946 --- [nio-8080-exec-1] c.e.b.m.BoardMapper.selectBoardList      : <==      Total: 1
+2025-07-24T16:41:40.078+09:00 DEBUG 14946 --- [nio-8080-exec-1] org.mybatis.spring.SqlSessionUtils       : Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3dbbf9af]
+2025-07-24T16:43:42.203+09:00 DEBUG 14946 --- [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2025-07-24T16:43:42.204+09:00 DEBUG 14946 --- [nio-8080-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-07-24T16:43:42.204+09:00 DEBUG 14946 --- [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2025-07-24T16:43:42.234+09:00 DEBUG 14946 --- [nio-8080-exec-2] org.mybatis.spring.SqlSessionUtils       : Creating a new SqlSession
+2025-07-24T16:43:42.234+09:00 DEBUG 14946 --- [nio-8080-exec-2] org.mybatis.spring.SqlSessionUtils       : SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@67359520] was not registered for synchronization because synchronization is not active
+2025-07-24T16:43:42.242+09:00 DEBUG 14946 --- [nio-8080-exec-2] o.m.s.t.SpringManagedTransaction         : JDBC Connection [HikariProxyConnection@628696873 wrapping com.mysql.cj.jdbc.ConnectionImpl@2bdb267d] will not be managed by Spring
+2025-07-24T16:43:42.242+09:00 DEBUG 14946 --- [nio-8080-exec-2] c.e.b.m.UserMapper.selectUserByUserId    : ==>  Preparing: SELECT idx, user_id, password, username, email, role, active_yn, reg_date, del_yn FROM users WHERE user_id = ? AND del_yn = 'N' AND active_yn = 'Y'
+2025-07-24T16:43:42.242+09:00 DEBUG 14946 --- [nio-8080-exec-2] c.e.b.m.UserMapper.selectUserByUserId    : ==> Parameters: newuser(String)
+2025-07-24T16:43:42.251+09:00 DEBUG 14946 --- [nio-8080-exec-2] c.e.b.m.UserMapper.selectUserByUserId    : <==      Total: 1
+2025-07-24T16:43:42.251+09:00 DEBUG 14946 --- [nio-8080-exec-2] org.mybatis.spring.SqlSessionUtils       : Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@67359520]
+2025-07-24T16:43:42.334+09:00  INFO 14946 --- [nio-8080-exec-2] c.e.board.service.impl.AuthServiceImpl   : 사용자 로그인 성공: newuser
+2025-07-24T16:43:54.341+09:00 DEBUG 14946 --- [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing POST /board
+2025-07-24T16:43:54.354+09:00 DEBUG 14946 --- [nio-8080-exec-4] c.e.b.security.JwtAuthenticationFilter   : JWT 토큰으로 인증된 사용자: newuser, 역할: USER
+2025-07-24T16:43:54.355+09:00 DEBUG 14946 --- [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured POST /board
+2025-07-24T16:43:54.357+09:00 ERROR 14946 --- [nio-8080-exec-4] c.e.b.exception.GlobalExceptionHandler   : RuntimeException 발생: JSON parse error: Unrecognized character escape '!' (code 33)
+
+org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Unrecognized character escape '!' (code 33)
+	at org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.readJavaType(AbstractJackson2HttpMessageConverter.java:408) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.read(AbstractJackson2HttpMessageConverter.java:356) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodArgumentResolver.readWithMessageConverters(AbstractMessageConverterMethodArgumentResolver.java:204) ~[spring-webmvc-6.2.8.jar:6.2.8]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor.readWithMessageConverters(RequestResponseBodyMethodProcessor.java:176) ~[spring-webmvc-6.2.8.jar:6.2.8]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor.resolveArgument(RequestResponseBodyMethodProcessor.java:150) ~[spring-webmvc-6.2.8.jar:6.2.8]
+	at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:122) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:227) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:181) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.2.8.jar:6.2.8]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986) ~[spring-webmvc-6.2.8.jar:6.2.8]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891) ~[spring-webmvc-6.2.8.jar:6.2.8]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.2.8.jar:6.2.8]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.2.8.jar:6.2.8]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.2.8.jar:6.2.8]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.2.8.jar:6.2.8]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914) ~[spring-webmvc-6.2.8.jar:6.2.8]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590) ~[tomcat-embed-core-10.1.42.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.2.8.jar:6.2.8]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.42.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.42.jar:10.1.42]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:101) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:131) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:85) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at com.example.board.security.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:74) ~[main/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.4.7.jar:6.4.7]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$4(HandlerMappingIntrospector.java:267) ~[spring-webmvc-6.2.8.jar:6.2.8]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:238) ~[spring-security-config-6.4.7.jar:6.4.7]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1769) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+Caused by: com.fasterxml.jackson.databind.JsonMappingException: Unrecognized character escape '!' (code 33)
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 139] (through reference chain: com.example.board.domain.BoardV0["content"])
+	at com.fasterxml.jackson.databind.JsonMappingException.wrapWithPath(JsonMappingException.java:401) ~[jackson-databind-2.18.4.jar:2.18.4]
+	at com.fasterxml.jackson.databind.JsonMappingException.wrapWithPath(JsonMappingException.java:360) ~[jackson-databind-2.18.4.jar:2.18.4]
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.wrapAndThrow(BeanDeserializerBase.java:1964) ~[jackson-databind-2.18.4.jar:2.18.4]
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserializeFromObject(BeanDeserializer.java:401) ~[jackson-databind-2.18.4.jar:2.18.4]
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:185) ~[jackson-databind-2.18.4.jar:2.18.4]
+	at com.fasterxml.jackson.databind.deser.DefaultDeserializationContext.readRootValue(DefaultDeserializationContext.java:342) ~[jackson-databind-2.18.4.jar:2.18.4]
+	at com.fasterxml.jackson.databind.ObjectReader._bindAndClose(ObjectReader.java:2131) ~[jackson-databind-2.18.4.jar:2.18.4]
+	at com.fasterxml.jackson.databind.ObjectReader.readValue(ObjectReader.java:1501) ~[jackson-databind-2.18.4.jar:2.18.4]
+	at org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.readJavaType(AbstractJackson2HttpMessageConverter.java:397) ~[spring-web-6.2.8.jar:6.2.8]
+	... 101 common frames omitted
+Caused by: com.fasterxml.jackson.core.JsonParseException: Unrecognized character escape '!' (code 33)
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 139]
+	at com.fasterxml.jackson.core.JsonParser._constructReadException(JsonParser.java:2666) ~[jackson-core-2.18.4.1.jar:2.18.4.1]
+	at com.fasterxml.jackson.core.base.ParserBase._handleUnrecognizedCharacterEscape(ParserBase.java:1386) ~[jackson-core-2.18.4.1.jar:2.18.4.1]
+	at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._decodeEscaped(UTF8StreamJsonParser.java:3380) ~[jackson-core-2.18.4.1.jar:2.18.4.1]
+	at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._finishString2(UTF8StreamJsonParser.java:2567) ~[jackson-core-2.18.4.1.jar:2.18.4.1]
+	at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._finishAndReturnString(UTF8StreamJsonParser.java:2520) ~[jackson-core-2.18.4.1.jar:2.18.4.1]
+	at com.fasterxml.jackson.core.json.UTF8StreamJsonParser.getText(UTF8StreamJsonParser.java:294) ~[jackson-core-2.18.4.1.jar:2.18.4.1]
+	at com.fasterxml.jackson.databind.deser.std.StringDeserializer.deserialize(StringDeserializer.java:42) ~[jackson-databind-2.18.4.jar:2.18.4]
+	at com.fasterxml.jackson.databind.deser.std.StringDeserializer.deserialize(StringDeserializer.java:11) ~[jackson-databind-2.18.4.jar:2.18.4]
+	at com.fasterxml.jackson.databind.deser.impl.MethodProperty.deserializeAndSet(MethodProperty.java:129) ~[jackson-databind-2.18.4.jar:2.18.4]
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserializeFromObject(BeanDeserializer.java:399) ~[jackson-databind-2.18.4.jar:2.18.4]
+	... 106 common frames omitted
+
+2025-07-24T16:53:12.746+09:00 DEBUG 14946 --- [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing POST /board
+2025-07-24T16:53:12.747+09:00 DEBUG 14946 --- [nio-8080-exec-5] c.e.b.security.JwtAuthenticationFilter   : JWT 토큰으로 인증된 사용자: newuser, 역할: USER
+2025-07-24T16:53:12.747+09:00 DEBUG 14946 --- [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured POST /board
+2025-07-24T16:53:12.748+09:00 DEBUG 14946 --- [nio-8080-exec-5] org.mybatis.spring.SqlSessionUtils       : Creating a new SqlSession
+2025-07-24T16:53:12.749+09:00 DEBUG 14946 --- [nio-8080-exec-5] org.mybatis.spring.SqlSessionUtils       : SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@72f16b20] was not registered for synchronization because synchronization is not active
+2025-07-24T16:53:12.756+09:00 DEBUG 14946 --- [nio-8080-exec-5] o.m.s.t.SpringManagedTransaction         : JDBC Connection [HikariProxyConnection@1777721964 wrapping com.mysql.cj.jdbc.ConnectionImpl@2bdb267d] will not be managed by Spring
+2025-07-24T16:53:12.756+09:00 DEBUG 14946 --- [nio-8080-exec-5] c.e.b.mapper.BoardMapper.insertBoard     : ==>  Preparing: INSERT INTO t_board (title, content, writer_id, regDate, delYn) VALUES (?, ?, ?, NOW(), 'N')
+2025-07-24T16:53:12.757+09:00 DEBUG 14946 --- [nio-8080-exec-5] c.e.b.mapper.BoardMapper.insertBoard     : ==> Parameters: 정규화 완료 테스트(String), JOIN으로 실시간 조회됩니다(String), newuser(String)
+2025-07-24T16:53:12.775+09:00 DEBUG 14946 --- [nio-8080-exec-5] c.e.b.mapper.BoardMapper.insertBoard     : <==    Updates: 1
+2025-07-24T16:53:12.775+09:00 DEBUG 14946 --- [nio-8080-exec-5] org.mybatis.spring.SqlSessionUtils       : Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@72f16b20]
+2025-07-24T16:53:19.916+09:00 DEBUG 14946 --- [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /board
+2025-07-24T16:53:19.916+09:00 DEBUG 14946 --- [nio-8080-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-07-24T16:53:19.916+09:00 DEBUG 14946 --- [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /board
+2025-07-24T16:53:19.916+09:00 DEBUG 14946 --- [nio-8080-exec-7] org.mybatis.spring.SqlSessionUtils       : Creating a new SqlSession
+2025-07-24T16:53:19.916+09:00 DEBUG 14946 --- [nio-8080-exec-7] org.mybatis.spring.SqlSessionUtils       : SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7b12382b] was not registered for synchronization because synchronization is not active
+2025-07-24T16:53:19.924+09:00 DEBUG 14946 --- [nio-8080-exec-7] o.m.s.t.SpringManagedTransaction         : JDBC Connection [HikariProxyConnection@1976949049 wrapping com.mysql.cj.jdbc.ConnectionImpl@2bdb267d] will not be managed by Spring
+2025-07-24T16:53:19.924+09:00 DEBUG 14946 --- [nio-8080-exec-7] c.e.b.m.BoardMapper.selectBoardList      : ==>  Preparing: SELECT b.idx, b.title, b.content, u.username AS writerNm, b.writer_id, b.regDate, b.delYn, -- 댓글 개수 계산 (LEFT JOIN + COUNT) COALESCE(COUNT(c.idx), 0) AS commentCount, -- 신규 게시글 여부 (오늘 작성된 글이면 1, 아니면 0) CASE WHEN DATE_FORMAT(b.regDate, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d') THEN 1 ELSE 0 END AS isNew FROM t_board b LEFT JOIN users u ON b.writer_id = u.user_id AND u.del_yn = 'N' AND u.active_yn = 'Y' LEFT JOIN t_comment c ON b.idx = c.boardIdx AND c.delYn = 'N' WHERE b.delYn = 'N' GROUP BY b.idx, b.title, b.content, u.username, b.writer_id, b.regDate, b.delYn ORDER BY b.regDate DESC
+2025-07-24T16:53:19.924+09:00 DEBUG 14946 --- [nio-8080-exec-7] c.e.b.m.BoardMapper.selectBoardList      : ==> Parameters: 
+2025-07-24T16:53:19.933+09:00 DEBUG 14946 --- [nio-8080-exec-7] c.e.b.m.BoardMapper.selectBoardList      : <==      Total: 2
+2025-07-24T16:53:19.933+09:00 DEBUG 14946 --- [nio-8080-exec-7] org.mybatis.spring.SqlSessionUtils       : Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7b12382b]
+2025-07-24T17:04:10.155+09:00  WARN 14946 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Retrograde clock change detected (housekeeper delta=29s831ms), soft-evicting connections from pool.

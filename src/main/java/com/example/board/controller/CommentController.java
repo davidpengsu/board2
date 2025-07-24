@@ -3,10 +3,12 @@ package com.example.board.controller;
 import com.example.board.domain.CommentV0;
 import com.example.board.dto.ApiResponse;
 import com.example.board.service.CommentService;
+import com.example.board.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -27,18 +29,43 @@ import java.util.List;
 public class CommentController {
 
     private final CommentService commentService;
+    private final JwtTokenUtil jwtTokenUtil;
 
     /**
      * 댓글 등록 - POST /comment
      * 책임: HTTP 요청 처리 및 응답 반환
+     * 인증된 사용자만 댓글을 작성할 수 있음
+     * JWT 토큰에서 사용자 ID를 자동으로 추출하여 설정
+     * (작성자명은 DB JOIN을 통해 실시간으로 조회)
      */
     @PostMapping
-    public ResponseEntity<ApiResponse<Void>> insertComment(@Valid @RequestBody CommentV0 comment) {
+    public ResponseEntity<ApiResponse<Void>> insertComment(
+            @RequestBody CommentV0 comment,
+            HttpServletRequest request) {
+        
+        // JWT 토큰에서 사용자 ID만 추출
+        String token = getTokenFromRequest(request);
+        String userId = jwtTokenUtil.getUserIdFromToken(token);
+        
+        // 댓글에 작성자 ID만 설정 (작성자명은 DB JOIN으로 조회)
+        comment.setWriterId(userId);
+        
         commentService.createComment(comment);
         
         ApiResponse<Void> response = ApiResponse.success("댓글이 성공적으로 등록되었습니다.");
         
         return ResponseEntity.ok(response);
+    }
+    
+    /**
+     * HTTP 요청에서 JWT 토큰 추출
+     */
+    private String getTokenFromRequest(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
     }
 
     /**

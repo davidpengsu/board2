@@ -7,8 +7,8 @@
 
     <!-- 게시글 등록 -->
     <insert id="insertBoard" parameterType="com.example.board.domain.BoardV0">
-        INSERT INTO t_board (title, content, writerNm, regDate, delYn)
-        VALUES (#{title}, #{content}, #{writerNm}, NOW(), 'N')
+        INSERT INTO t_board (title, content, writer_id, regDate, delYn)
+        VALUES (#{title}, #{content}, #{writerId}, NOW(), 'N')
     </insert>
 
     <!-- 게시글 목록 조회 (댓글 개수와 신규 여부 포함) -->
@@ -17,7 +17,8 @@
             b.idx,
             b.title,
             b.content,
-            b.writerNm,
+            u.username AS writerNm,
+            b.writer_id,
             b.regDate,
             b.delYn,
             -- 댓글 개수 계산 (LEFT JOIN + COUNT)
@@ -29,9 +30,10 @@
                 ELSE 0 
             END AS isNew
         FROM t_board b
+        LEFT JOIN users u ON b.writer_id = u.user_id AND u.del_yn = 'N' AND u.active_yn = 'Y'
         LEFT JOIN t_comment c ON b.idx = c.boardIdx AND c.delYn = 'N'
         WHERE b.delYn = 'N'
-        GROUP BY b.idx, b.title, b.content, b.writerNm, b.regDate, b.delYn
+        GROUP BY b.idx, b.title, b.content, u.username, b.writer_id, b.regDate, b.delYn
         ORDER BY b.regDate DESC
     </select>
 

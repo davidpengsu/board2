@@ -25,7 +25,13 @@ public class CommentV0 extends BaseEntity {
     
     @NotBlank(message = "작성자명은 필수 입력값습니다.")
     @Size(max = 50, message = "작성자명은 50자를 초과할 수 없습니다.")
-    private String writerName;          // 댓글 작성자명
+    private String writerName;
+    
+    /**
+     * 작성자 ID (로그인한 사용자의 ID)
+     * 인증된 사용자만 댓글을 작성할 수 있으므로 필수값
+     */
+    private String writerId;          // 댓글 작성자명
     
     /**
      * LSP 적용: 댓글이 표시 가능한지 확인

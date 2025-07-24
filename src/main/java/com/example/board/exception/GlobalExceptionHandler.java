@@ -1,6 +1,7 @@
 package com.example.board.exception;
 
 import com.example.board.dto.ApiResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -19,6 +20,7 @@ import java.util.Map;
  * SRP (Single Responsibility Principle):
  * 전역 예외 처리만을 담당합니다.
  */
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -83,11 +85,39 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * 인증 관련 예외 처리 (로그인 실패, 토큰 오류 등)
+     * OCP 적용: 새로운 예외 타입 추가
+     */
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ApiResponse<Void>> handleAuthenticationException(RuntimeException ex) {
+        String message = ex.getMessage();
+        
+        // 실제 오류 정보 로깅
+        log.error("RuntimeException 발생: {}", message, ex);
+        
+        // 인증 관련 오류 메시지 판단
+        if (message.contains("사용자를 찾을 수 없습니다") || 
+            message.contains("비밀번호가 일치하지 않습니다") ||
+            message.contains("비활성화된 계정입니다")) {
+            
+            ApiResponse<Void> response = ApiResponse.failure(message);
+            return ResponseEntity.badRequest().body(response);
+        }
+        
+        // 기타 RuntimeException
+        ApiResponse<Void> response = ApiResponse.failure("처리 중 오류가 발생했습니다: " + message);
+        return ResponseEntity.internalServerError().body(response);
+    }
+
+    /**
      * 일반적인 모든 예외 처리 (마지막 안전망)
      */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Void>> handleGeneralException(Exception ex) {
-        ApiResponse<Void> response = ApiResponse.failure("서버에서 오류가 발생했습니다.");
+        // 실제 오류 정보 로깅
+        log.error("예상치 못한 Exception 발생: {}", ex.getMessage(), ex);
+        
+        ApiResponse<Void> response = ApiResponse.failure("서버에서 오류가 발생했습니다: " + ex.getMessage());
         return ResponseEntity.internalServerError().body(response);
     }
 }

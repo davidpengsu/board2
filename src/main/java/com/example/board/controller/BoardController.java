@@ -4,10 +4,14 @@ import com.example.board.domain.BoardV0;
 import com.example.board.dto.ApiResponse;
 import com.example.board.dto.BoardDetailResponse;
 import com.example.board.service.BoardService;
+import com.example.board.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -28,6 +32,7 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
+    private final JwtTokenUtil jwtTokenUtil;
 
     /**
      * 게시글 목록 조회 - GET /board
@@ -66,16 +71,37 @@ public class BoardController {
     /**
      * 게시글 등록 - POST /board
      * 책임: HTTP 요청 처리 및 응답 반환
-     * 
-     * @Valid 어노테이션으로 검증 실패 시 자동으로 MethodArgumentNotValidException 발생
-     * GlobalExceptionHandler에서 처리됨
+     * 인증된 사용자만 게시글을 작성할 수 있음
+     * JWT 토큰에서 사용자 ID를 자동으로 추출하여 설정
+     * (작성자명은 DB JOIN을 통해 실시간으로 조회)
      */
     @PostMapping
-    public ResponseEntity<ApiResponse<Void>> insertBoard(@Valid @RequestBody BoardV0 board) {
+    public ResponseEntity<ApiResponse<Void>> insertBoard(
+            @RequestBody BoardV0 board, 
+            HttpServletRequest request) {
+        
+        // JWT 토큰에서 사용자 ID만 추출
+        String token = getTokenFromRequest(request);
+        String userId = jwtTokenUtil.getUserIdFromToken(token);
+        
+        // 게시글에 작성자 ID만 설정 (작성자명은 DB JOIN으로 조회)
+        board.setWriterId(userId);
+        
         boardService.createBoard(board);
         
         ApiResponse<Void> response = ApiResponse.success("게시글이 성공적으로 등록되었습니다.");
         
         return ResponseEntity.ok(response);
+    }
+    
+    /**
+     * HTTP 요청에서 JWT 토큰 추출
+     */
+    private String getTokenFromRequest(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
     }
 }

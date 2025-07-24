@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.board.mapper.UserMapper">
+    
+    <!-- 사용자 정보 ResultMap -->
+    <resultMap id="UserResultMap" type="com.example.board.domain.User">
+        <id property="idx" column="idx"/>
+        <result property="userId" column="user_id"/>
+        <result property="password" column="password"/>
+        <result property="username" column="username"/>
+        <result property="email" column="email"/>
+        <result property="role" column="role"/>
+        <result property="activeYn" column="active_yn"/>
+        <result property="regDate" column="reg_date"/>
+        <result property="delYn" column="del_yn"/>
+    </resultMap>
+    
+    <!-- 사용자 ID로 사용자 조회 -->
+    <select id="selectUserByUserId" parameterType="String" resultMap="UserResultMap">
+        SELECT 
+            idx,
+            user_id,
+            password,
+            username,
+            email,
+            role,
+            active_yn,
+            reg_date,
+            del_yn
+        FROM users 
+        WHERE user_id = #{userId} 
+          AND del_yn = 'N'
+          AND active_yn = 'Y'
+    </select>
+    
+    <!-- 사용자 등록 (향후 확장용) -->
+    <insert id="insertUser" parameterType="com.example.board.domain.User">
+        INSERT INTO users (
+            user_id,
+            password,
+            username,
+            email,
+            role,
+            active_yn,
+            reg_date,
+            del_yn
+        ) VALUES (
+            #{userId},
+            #{password},
+            #{username},
+            #{email},
+            #{role},
+            'Y',
+            NOW(),
+            'N'
+        )
+    </insert>
+    
+</mapper>
