@@ -37,6 +37,21 @@
         ORDER BY b.regDate DESC
     </select>
 
+    <!-- 게시글 단건 조회 (ID로 직접 조회) -->
+    <select id="selectBoardById" parameterType="Long" resultType="com.example.board.domain.BoardV0">
+        SELECT 
+            b.idx,
+            b.title,
+            b.content,
+            u.username AS writerNm,
+            b.writer_id,
+            b.regDate,
+            b.delYn
+        FROM t_board b
+        LEFT JOIN users u ON b.writer_id = u.user_id AND u.del_yn = 'N' AND u.active_yn = 'Y'
+        WHERE b.idx = #{idx} AND b.delYn = 'N'
+    </select>
+
     <!-- 게시글 삭제 (논리 삭제) -->
     <update id="deleteBoard" parameterType="Long">
         UPDATE t_board 

@@ -43,13 +43,12 @@ public class BoardRepositoryImpl implements BoardRepository {
     
     /**
      * 게시글 ID로 조회
+     * 실무 원칙: 직접 쿼리로 조회, 전체 조회 후 필터링 금지
      */
     @Override
     public Optional<BoardV0> findById(Long idx) {
-        List<BoardV0> boardList = boardMapper.selectBoardList();
-        return boardList.stream()
-                .filter(board -> board.getIdx().equals(idx))
-                .findFirst();
+        BoardV0 board = boardMapper.selectBoardById(idx);
+        return Optional.ofNullable(board);
     }
     
     /**

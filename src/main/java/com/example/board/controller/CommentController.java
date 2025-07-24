@@ -33,28 +33,23 @@ public class CommentController {
 
     /**
      * 댓글 등록 - POST /comment
-     * 책임: HTTP 요청 처리 및 응답 반환
-     * 인증된 사용자만 댓글을 작성할 수 있음
-     * JWT 토큰에서 사용자 ID를 자동으로 추출하여 설정
-     * (작성자명은 DB JOIN을 통해 실시간으로 조회)
+     * 실무 원칙: Controller는 HTTP 처리만, 모든 비즈니스 로직은 Service에 위임
      */
     @PostMapping
-    public ResponseEntity<ApiResponse<Void>> insertComment(
+    public ResponseEntity<ApiResponse<Void>> createComment(
             @RequestBody CommentV0 comment,
             HttpServletRequest request) {
         
-        // JWT 토큰에서 사용자 ID만 추출
+        // JWT 토큰에서 사용자 ID 추출
         String token = getTokenFromRequest(request);
         String userId = jwtTokenUtil.getUserIdFromToken(token);
         
-        // 댓글에 작성자 ID만 설정 (작성자명은 DB JOIN으로 조회)
-        comment.setWriterId(userId);
+        // Service에 모든 로직 위임
+        ApiResponse<Void> result = commentService.createComment(comment, userId);
         
-        commentService.createComment(comment);
-        
-        ApiResponse<Void> response = ApiResponse.success("댓글이 성공적으로 등록되었습니다.");
-        
-        return ResponseEntity.ok(response);
+        return result.isSuccess() 
+            ? ResponseEntity.ok(result)
+            : ResponseEntity.badRequest().body(result);
     }
     
     /**
@@ -104,9 +99,7 @@ public class CommentController {
 
     /**
      * 댓글 삭제 - DELETE /comment/{idx}
-     * 책임: HTTP 요청 처리 및 응답 반환
-     * 인증된 사용자만 본인이 작성한 댓글을 삭제할 수 있음
-     * SOLID 원칙 적용: SRP - 권한 검증은 Service 계층에 위임
+     * 실무 원칙: Controller는 HTTP 처리만, 모든 비즈니스 로직은 Service에 위임
      */
     @DeleteMapping("/{idx}")
     public ResponseEntity<ApiResponse<Void>> deleteComment(
@@ -117,17 +110,11 @@ public class CommentController {
         String token = getTokenFromRequest(request);
         String userId = jwtTokenUtil.getUserIdFromToken(token);
         
-        // 작성자 권한 확인 (DIP 적용: Service 계층의 추상화에 의존)
-        if (!commentService.isOwner(idx, userId)) {
-            ApiResponse<Void> response = ApiResponse.failure("본인이 작성한 댓글만 삭제할 수 있습니다.");
-            return ResponseEntity.status(403).body(response);
-        }
+        // Service에 모든 로직 위임
+        ApiResponse<Void> result = commentService.deleteComment(idx, userId);
         
-        // 댓글 삭제 처리
-        commentService.deleteComment(idx);
-        
-        ApiResponse<Void> response = ApiResponse.success("댓글이 성공적으로 삭제되었습니다.");
-        
-        return ResponseEntity.ok(response);
+        return result.isSuccess() 
+            ? ResponseEntity.ok(result)
+            : ResponseEntity.status(403).body(result);
     }
 }

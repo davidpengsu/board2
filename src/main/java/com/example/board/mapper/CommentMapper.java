@@ -16,6 +16,9 @@ public interface CommentMapper {
     // 모든 댓글 목록 조회 (SELECT) - 삭제되지 않은 댓글만
     List<CommentV0> selectAllComments();
     
+    // 댓글 단건 조회 (ID로 직접 조회)
+    CommentV0 selectCommentById(Long idx);
+    
     // 댓글 삭제 (논리 삭제: delYn = 'Y')
     void deleteComment(Long idx);
 }

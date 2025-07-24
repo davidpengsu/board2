@@ -44,6 +44,21 @@
         ORDER BY c.regDate DESC
     </select>
 
+    <!-- 댓글 단건 조회 (ID로 직접 조회) -->
+    <select id="selectCommentById" parameterType="Long" resultType="com.example.board.domain.CommentV0">
+        SELECT 
+            c.idx,
+            c.boardIdx,
+            c.comment,
+            u.username AS writerName,
+            c.writer_id,
+            c.regDate,
+            c.delYn
+        FROM t_comment c
+        LEFT JOIN users u ON c.writer_id = u.user_id AND u.del_yn = 'N' AND u.active_yn = 'Y'
+        WHERE c.idx = #{idx} AND c.delYn = 'N'
+    </select>
+
     <!-- 댓글 삭제 (논리 삭제) -->
     <update id="deleteComment" parameterType="Long">
         UPDATE t_comment 

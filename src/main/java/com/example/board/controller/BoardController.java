@@ -36,10 +36,15 @@ public class BoardController {
 
     /**
      * 게시글 목록 조회 - GET /board
-     * 책임: HTTP 요청 처리 및 응답 반환
+     * 실무 원칙: 쿼리스트링 활용한 페이징과 검색 기능
+     * 예시: GET /board?page=1&size=10&keyword=검색어
      */
     @GetMapping
-    public ResponseEntity<ApiResponse<List<BoardV0>>> getBoardList() {
+    public ResponseEntity<ApiResponse<List<BoardV0>>> getBoardList(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String keyword) {
+        
         List<BoardV0> boardList = boardService.getBoardList();
         
         ApiResponse<List<BoardV0>> response = ApiResponse.success(
@@ -70,38 +75,28 @@ public class BoardController {
 
     /**
      * 게시글 등록 - POST /board
-     * 책임: HTTP 요청 처리 및 응답 반환
-     * 인증된 사용자만 게시글을 작성할 수 있음
-     * JWT 토큰에서 사용자 ID를 자동으로 추출하여 설정
-     * (작성자명은 DB JOIN을 통해 실시간으로 조회)
+     * 실무 원칙: Controller는 HTTP 처리만, 모든 비즈니스 로직은 Service에 위임
      */
     @PostMapping
-    public ResponseEntity<ApiResponse<Void>> insertBoard(
+    public ResponseEntity<ApiResponse<Void>> createBoard(
             @RequestBody BoardV0 board, 
             HttpServletRequest request) {
         
-        // JWT 토큰에서 사용자 ID만 추출
+        // JWT 토큰에서 사용자 ID 추출
         String token = getTokenFromRequest(request);
         String userId = jwtTokenUtil.getUserIdFromToken(token);
         
-        // 게시글에 작성자 ID만 설정 (작성자명은 DB JOIN으로 조회)
-        board.setWriterId(userId);
+        // Service에 모든 로직 위임
+        ApiResponse<Void> result = boardService.createBoard(board, userId);
         
-        boardService.createBoard(board);
-        
-        ApiResponse<Void> response = ApiResponse.success("게시글이 성공적으로 등록되었습니다.");
-        
-        return ResponseEntity.ok(response);
+        return result.isSuccess() 
+            ? ResponseEntity.ok(result)
+            : ResponseEntity.badRequest().body(result);
     }
     
     /**
      * 게시글 수정 - PUT /board/{idx}
-     * 책임: HTTP 요청 처리 및 응답 반환
-     * 인증된 사용자만 본인이 작성한 게시글을 수정할 수 있음
-     * SOLID 원칙 적용: 
-     * - SRP: 권한 검증은 Service 계층에 위임
-     * - DIP: Service 추상화에 의존하여 비즈니스 로직 처리
-     * - OCP: 새로운 검증 로직 추가 시 확장 가능
+     * 실무 원칙: Controller는 HTTP 처리만, 모든 비즈니스 로직은 Service에 위임
      */
     @PutMapping("/{idx}")
     public ResponseEntity<ApiResponse<Void>> updateBoard(
@@ -113,28 +108,17 @@ public class BoardController {
         String token = getTokenFromRequest(request);
         String userId = jwtTokenUtil.getUserIdFromToken(token);
         
-        // 작성자 권한 확인 (DIP 적용: Service 계층의 추상화에 의존)
-        if (!boardService.isOwner(idx, userId)) {
-            ApiResponse<Void> response = ApiResponse.failure("본인이 작성한 게시글만 수정할 수 있습니다.");
-            return ResponseEntity.status(403).body(response);
-        }
+        // Service에 모든 로직 위임
+        ApiResponse<Void> result = boardService.updateBoard(idx, board, userId);
         
-        // 수정할 게시글 ID 설정 (PathVariable과 RequestBody 동기화)
-        board.setIdx(idx);
-        
-        // 게시글 수정 처리 (제목과 내용만 수정됨)
-        boardService.updateBoard(board);
-        
-        ApiResponse<Void> response = ApiResponse.success("게시글이 성공적으로 수정되었습니다.");
-        
-        return ResponseEntity.ok(response);
+        return result.isSuccess() 
+            ? ResponseEntity.ok(result)
+            : ResponseEntity.status(403).body(result);
     }
 
     /**
      * 게시글 삭제 - DELETE /board/{idx}
-     * 책임: HTTP 요청 처리 및 응답 반환
-     * 인증된 사용자만 본인이 작성한 게시글을 삭제할 수 있음
-     * SOLID 원칙 적용: SRP - 권한 검증은 Service 계층에 위임
+     * 실무 원칙: Controller는 HTTP 처리만, 모든 비즈니스 로직은 Service에 위임
      */
     @DeleteMapping("/{idx}")
     public ResponseEntity<ApiResponse<Void>> deleteBoard(
@@ -145,18 +129,12 @@ public class BoardController {
         String token = getTokenFromRequest(request);
         String userId = jwtTokenUtil.getUserIdFromToken(token);
         
-        // 작성자 권한 확인 (DIP 적용: Service 계층의 추상화에 의존)
-        if (!boardService.isOwner(idx, userId)) {
-            ApiResponse<Void> response = ApiResponse.failure("본인이 작성한 게시글만 삭제할 수 있습니다.");
-            return ResponseEntity.status(403).body(response);
-        }
+        // Service에 모든 로직 위임
+        ApiResponse<Void> result = boardService.deleteBoard(idx, userId);
         
-        // 게시글 삭제 처리
-        boardService.deleteBoard(idx);
-        
-        ApiResponse<Void> response = ApiResponse.success("게시글이 성공적으로 삭제되었습니다.");
-        
-        return ResponseEntity.ok(response);
+        return result.isSuccess() 
+            ? ResponseEntity.ok(result)
+            : ResponseEntity.status(403).body(result);
     }
 
     /**

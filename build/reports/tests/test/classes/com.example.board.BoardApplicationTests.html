@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.315s</div>
+<div class="counter">0.316s</div>
 <p>duration</p>
 </div>
 </td>
@@ -82,7 +82,7 @@
 </thead>
 <tr>
 <td class="success">contextLoads()</td>
-<td class="success">0.315s</td>
+<td class="success">0.316s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -90,8 +90,8 @@
 <div class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>10:11:54.930 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.board.BoardApplicationTests]: BoardApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-10:11:54.961 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.board.BoardApplication for test class com.example.board.BoardApplicationTests
+<pre>00:01:52.707 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.board.BoardApplicationTests]: BoardApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+00:01:52.741 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.board.BoardApplication for test class com.example.board.BoardApplicationTests
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -102,16 +102,30 @@
 
  :: Spring Boot ::                (v3.4.7)
 
-2025-07-24T10:11:55.082+09:00  INFO 10335 --- [    Test worker] c.example.board.BoardApplicationTests    : Starting BoardApplicationTests using Java 21.0.7 with PID 10335 (started by david in /Users/david/Documents/study/board2)
-2025-07-24T10:11:55.082+09:00  INFO 10335 --- [    Test worker] c.example.board.BoardApplicationTests    : No active profile set, falling back to 1 default profile: &quot;default&quot;
-2025-07-24T10:11:55.517+09:00  WARN 10335 --- [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
+2025-07-25T00:01:52.872+09:00  INFO 19569 --- [    Test worker] c.example.board.BoardApplicationTests    : Starting BoardApplicationTests using Java 21.0.7 with PID 19569 (started by david in /Users/david/Documents/study/board2)
+2025-07-25T00:01:52.872+09:00 DEBUG 19569 --- [    Test worker] c.example.board.BoardApplicationTests    : Running with Spring Boot v3.4.7, Spring v6.2.8
+2025-07-25T00:01:52.873+09:00  INFO 19569 --- [    Test worker] c.example.board.BoardApplicationTests    : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2025-07-25T00:01:53.099+09:00 DEBUG 19569 --- [    Test worker] o.m.s.mapper.ClassPathMapperScanner      : Identified candidate component class: file [/Users/david/Documents/study/board2/build/classes/java/main/com/example/board/mapper/BoardMapper.class]
+2025-07-25T00:01:53.099+09:00 DEBUG 19569 --- [    Test worker] o.m.s.mapper.ClassPathMapperScanner      : Identified candidate component class: file [/Users/david/Documents/study/board2/build/classes/java/main/com/example/board/mapper/CommentMapper.class]
+2025-07-25T00:01:53.099+09:00 DEBUG 19569 --- [    Test worker] o.m.s.mapper.ClassPathMapperScanner      : Identified candidate component class: file [/Users/david/Documents/study/board2/build/classes/java/main/com/example/board/mapper/UserMapper.class]
+2025-07-25T00:01:53.099+09:00 DEBUG 19569 --- [    Test worker] o.m.s.mapper.ClassPathMapperScanner      : Creating MapperFactoryBean with name 'boardMapper' and 'com.example.board.mapper.BoardMapper' mapperInterface
+2025-07-25T00:01:53.100+09:00 DEBUG 19569 --- [    Test worker] o.m.s.mapper.ClassPathMapperScanner      : Enabling autowire by type for MapperFactoryBean with name 'boardMapper'.
+2025-07-25T00:01:53.100+09:00 DEBUG 19569 --- [    Test worker] o.m.s.mapper.ClassPathMapperScanner      : Creating MapperFactoryBean with name 'commentMapper' and 'com.example.board.mapper.CommentMapper' mapperInterface
+2025-07-25T00:01:53.100+09:00 DEBUG 19569 --- [    Test worker] o.m.s.mapper.ClassPathMapperScanner      : Enabling autowire by type for MapperFactoryBean with name 'commentMapper'.
+2025-07-25T00:01:53.100+09:00 DEBUG 19569 --- [    Test worker] o.m.s.mapper.ClassPathMapperScanner      : Creating MapperFactoryBean with name 'userMapper' and 'com.example.board.mapper.UserMapper' mapperInterface
+2025-07-25T00:01:53.100+09:00 DEBUG 19569 --- [    Test worker] o.m.s.mapper.ClassPathMapperScanner      : Enabling autowire by type for MapperFactoryBean with name 'userMapper'.
+2025-07-25T00:01:53.247+09:00 DEBUG 19569 --- [    Test worker] o.mybatis.spring.SqlSessionFactoryBean   : Parsed mapper file: 'file [/Users/david/Documents/study/board2/build/resources/main/mapper/BoardMapper.xml]'
+2025-07-25T00:01:53.251+09:00 DEBUG 19569 --- [    Test worker] o.mybatis.spring.SqlSessionFactoryBean   : Parsed mapper file: 'file [/Users/david/Documents/study/board2/build/resources/main/mapper/CommentMapper.xml]'
+2025-07-25T00:01:53.255+09:00 DEBUG 19569 --- [    Test worker] o.mybatis.spring.SqlSessionFactoryBean   : Parsed mapper file: 'file [/Users/david/Documents/study/board2/build/resources/main/mapper/UserMapper.xml]'
+2025-07-25T00:01:53.298+09:00  WARN 19569 --- [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
 
-Using generated security password: a231efb5-7170-4246-877a-e0ea7e7ed50d
+Using generated security password: 844465ac-b310-4a99-809e-10da5cf7889d
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-2025-07-24T10:11:55.519+09:00  INFO 10335 --- [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
-2025-07-24T10:11:55.682+09:00  INFO 10335 --- [    Test worker] c.example.board.BoardApplicationTests    : Started BoardApplicationTests in 0.682 seconds (process running for 1.004)
+2025-07-25T00:01:53.300+09:00  INFO 19569 --- [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-07-25T00:01:53.378+09:00 DEBUG 19569 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2025-07-25T00:01:53.477+09:00  INFO 19569 --- [    Test worker] c.example.board.BoardApplicationTests    : Started BoardApplicationTests in 0.691 seconds (process running for 1.048)
 </pre>
 </span>
 </div>
@@ -134,7 +148,7 @@ WARNING: Dynamic loading of agents will be disallowed by default in a future rel
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 8.14.3</a> at 2025. 7. 24. 오전 10:11:56</p>
+<a href="https://www.gradle.org">Gradle 8.14.3</a> at 2025. 7. 25. 오전 12:01:53</p>
 </div>
 </div>
 </body>

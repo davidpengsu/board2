@@ -50,15 +50,13 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
     
     /**
-     * 댓글 ID로 조회 (향후 구현)
+     * 댓글 ID로 조회
+     * 실무 원칙: 직접 쿼리로 조회, 전체 조회 후 필터링 금지
      */
     @Override
     public Optional<CommentV0> findById(Long idx) {
-        // 향후 CommentMapper에 selectCommentById 메서드 추가 후 구현
-        List<CommentV0> allComments = commentMapper.selectAllComments();
-        return allComments.stream()
-                .filter(comment -> comment.getIdx().equals(idx))
-                .findFirst();
+        CommentV0 comment = commentMapper.selectCommentById(idx);
+        return Optional.ofNullable(comment);
     }
     
     /**

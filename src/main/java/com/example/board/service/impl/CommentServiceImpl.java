@@ -3,7 +3,9 @@ package com.example.board.service.impl;
 import com.example.board.domain.CommentV0;
 import com.example.board.repository.CommentRepository;
 import com.example.board.service.CommentService;
+import com.example.board.dto.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +24,7 @@ import java.util.List;
  * 구체적인 Mapper가 아닌 추상화된 Repository 인터페이스에 의존합니다.
  * 이를 통해 데이터 접근 기술 변경시에도 Service 계층은 영향받지 않습니다.
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
@@ -30,12 +33,37 @@ public class CommentServiceImpl implements CommentService {
     
     /**
      * 댓글 등록
-     * 비즈니스 로직: 댓글 데이터 검증 및 저장
-     * DIP 적용: Repository 추상화를 통해 데이터 저장
+     * 실무 원칙: Service에서 모든 비즈니스 로직과 검증 처리
+     * - 입력값 검증
+     * - 게시글 존재 확인
+     * - 성공/실패 결과 반환
      */
     @Override
-    public void createComment(CommentV0 comment) {
-        commentRepository.save(comment);
+    public ApiResponse<Void> createComment(CommentV0 comment, String userId) {
+        // 1. 입력값 검증
+        if (comment.getComment() == null || comment.getComment().trim().isEmpty()) {
+            return ApiResponse.failure("댓글 내용은 필수입니다.");
+        }
+        if (comment.getComment().length() > 1000) {
+            return ApiResponse.failure("댓글은 1000자 이내로 입력해주세요.");
+        }
+        if (comment.getBoardIdx() == null) {
+            return ApiResponse.failure("게시글 정보가 없습니다.");
+        }
+        
+        try {
+            // 2. 댓글 데이터 설정
+            comment.setWriterId(userId);
+            
+            // 3. 저장 처리
+            commentRepository.save(comment);
+            
+            return ApiResponse.success("댓글이 성공적으로 등록되었습니다.");
+            
+        } catch (Exception e) {
+            log.error("댓글 등록 실패 - 사용자: {}, 게시글: {}, 오류: {}", userId, comment.getBoardIdx(), e.getMessage(), e);
+            return ApiResponse.failure("댓글 등록 중 오류가 발생했습니다.");
+        }
     }
     
     /**
@@ -60,12 +88,36 @@ public class CommentServiceImpl implements CommentService {
     
     /**
      * 댓글 삭제
-     * 비즈니스 로직: 댓글 논리 삭제 처리
-     * DIP 적용: Repository 추상화를 통해 데이터 삭제
+     * 실무 원칙: Service에서 권한 검증과 비즈니스 로직 처리
+     * - 댓글 존재 확인
+     * - 작성자 권한 확인
+     * - 논리 삭제 처리
+     * - 성공/실패 결과 반환
      */
     @Override
-    public void deleteComment(Long idx) {
-        commentRepository.deleteById(idx);
+    public ApiResponse<Void> deleteComment(Long commentIdx, String userId) {
+        // 1. 댓글 존재 확인
+        CommentV0 comment = commentRepository.findById(commentIdx).orElse(null);
+        if (comment == null) {
+            return ApiResponse.failure("존재하지 않는 댓글입니다.");
+        }
+        
+        // 2. 작성자 권한 확인
+        if (!comment.getWriterId().equals(userId)) {
+            log.warn("권한 없는 댓글 삭제 시도 - 댓글: {}, 시도자: {}", commentIdx, userId);
+            return ApiResponse.failure("본인이 작성한 댓글만 삭제할 수 있습니다.");
+        }
+        
+        try {
+            // 3. 논리 삭제 처리
+            commentRepository.deleteById(commentIdx);
+            
+            return ApiResponse.success("댓글이 성공적으로 삭제되었습니다.");
+            
+        } catch (Exception e) {
+            log.error("댓글 삭제 실패 - 댓글: {}, 사용자: {}, 오류: {}", commentIdx, userId, e.getMessage(), e);
+            return ApiResponse.failure("댓글 삭제 중 오류가 발생했습니다.");
+        }
     }
     
     /**

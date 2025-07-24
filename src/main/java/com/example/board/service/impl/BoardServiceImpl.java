@@ -6,7 +6,9 @@ import com.example.board.dto.BoardDetailResponse;
 import com.example.board.repository.BoardRepository;
 import com.example.board.repository.CommentRepository;
 import com.example.board.service.BoardService;
+import com.example.board.dto.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +27,7 @@ import java.util.List;
  * 구체적인 Mapper가 아닌 추상화된 Repository 인터페이스에 의존합니다.
  * 이를 통해 데이터 접근 기술 변경시에도 Service 계층은 영향받지 않습니다.
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
@@ -61,12 +64,40 @@ public class BoardServiceImpl implements BoardService {
     
     /**
      * 게시글 등록
-     * 비즈니스 로직: 게시글 데이터 검증 및 저장
-     * DIP 적용: Repository 추상화를 통해 데이터 저장
+     * 실무 원칙: Service에서 모든 비즈니스 로직과 검증 처리
+     * - 입력값 검증
+     * - 사용자 권한 확인
+     * - 성공/실패 결과 반환
      */
     @Override
-    public void createBoard(BoardV0 board) {
-        boardRepository.save(board);
+    public ApiResponse<Void> createBoard(BoardV0 board, String userId) {
+        // 1. 입력값 검증
+        if (board.getTitle() == null || board.getTitle().trim().isEmpty()) {
+            return ApiResponse.failure("제목은 필수입니다.");
+        }
+        if (board.getTitle().length() > 100) {
+            return ApiResponse.failure("제목은 100자 이내로 입력해주세요.");
+        }
+        if (board.getContent() == null || board.getContent().trim().isEmpty()) {
+            return ApiResponse.failure("내용은 필수입니다.");
+        }
+        if (board.getContent().length() > 4000) {
+            return ApiResponse.failure("내용은 4000자 이내로 입력해주세요.");
+        }
+        
+        try {
+            // 2. 게시글 데이터 설정
+            board.setWriterId(userId);
+            
+            // 3. 저장 처리
+            boardRepository.save(board);
+            
+            return ApiResponse.success("게시글이 성공적으로 등록되었습니다.");
+            
+        } catch (Exception e) {
+            log.error("게시글 등록 실패 - 사용자: {}, 제목: {}, 오류: {}", userId, board.getTitle(), e.getMessage(), e);
+            return ApiResponse.failure("게시글 등록 중 오류가 발생했습니다.");
+        }
     }
     
     /**
@@ -80,23 +111,88 @@ public class BoardServiceImpl implements BoardService {
     }
     
     /**
-     * 게시글 수정 (ISP 적용: BoardWriteService 인터페이스 구현)
-     * 향후 확장을 위한 메서드
-     * DIP 적용: Repository 추상화를 통해 데이터 수정
+     * 게시글 수정
+     * 실무 원칙: Service에서 권한 검증과 비즈니스 로직 처리
+     * - 게시글 존재 확인
+     * - 작성자 권한 확인
+     * - 입력값 검증
+     * - 성공/실패 결과 반환
      */
     @Override
-    public void updateBoard(BoardV0 board) {
-        boardRepository.update(board);
+    public ApiResponse<Void> updateBoard(Long boardIdx, BoardV0 board, String userId) {
+        // 1. 게시글 존재 확인
+        BoardV0 existingBoard = boardRepository.findById(boardIdx).orElse(null);
+        if (existingBoard == null) {
+            return ApiResponse.failure("존재하지 않는 게시글입니다.");
+        }
+        
+        // 2. 작성자 권한 확인
+        if (!existingBoard.getWriterId().equals(userId)) {
+            log.warn("권한 없는 수정 시도 - 게시글: {}, 시도자: {}", boardIdx, userId);
+            return ApiResponse.failure("본인이 작성한 게시글만 수정할 수 있습니다.");
+        }
+        
+        // 3. 입력값 검증
+        if (board.getTitle() == null || board.getTitle().trim().isEmpty()) {
+            return ApiResponse.failure("제목은 필수입니다.");
+        }
+        if (board.getTitle().length() > 100) {
+            return ApiResponse.failure("제목은 100자 이내로 입력해주세요.");
+        }
+        if (board.getContent() == null || board.getContent().trim().isEmpty()) {
+            return ApiResponse.failure("내용은 필수입니다.");
+        }
+        if (board.getContent().length() > 4000) {
+            return ApiResponse.failure("내용은 4000자 이내로 입력해주세요.");
+        }
+        
+        try {
+            // 4. 수정할 데이터 설정
+            board.setIdx(boardIdx);
+            
+            // 5. 수정 처리
+            boardRepository.update(board);
+            
+            return ApiResponse.success("게시글이 성공적으로 수정되었습니다.");
+            
+        } catch (Exception e) {
+            log.error("게시글 수정 실패 - 게시글: {}, 사용자: {}, 오류: {}", boardIdx, userId, e.getMessage(), e);
+            return ApiResponse.failure("게시글 수정 중 오류가 발생했습니다.");
+        }
     }
     
     /**
-     * 게시글 삭제 (ISP 적용: BoardWriteService 인터페이스 구현)
-     * 비즈니스 로직: 게시글 논리 삭제 처리
-     * DIP 적용: Repository 추상화를 통해 데이터 삭제
+     * 게시글 삭제
+     * 실무 원칙: Service에서 권한 검증과 비즈니스 로직 처리
+     * - 게시글 존재 확인
+     * - 작성자 권한 확인
+     * - 논리 삭제 처리
+     * - 성공/실패 결과 반환
      */
     @Override
-    public void deleteBoard(Long idx) {
-        boardRepository.deleteById(idx);
+    public ApiResponse<Void> deleteBoard(Long boardIdx, String userId) {
+        // 1. 게시글 존재 확인
+        BoardV0 board = boardRepository.findById(boardIdx).orElse(null);
+        if (board == null) {
+            return ApiResponse.failure("존재하지 않는 게시글입니다.");
+        }
+        
+        // 2. 작성자 권한 확인
+        if (!board.getWriterId().equals(userId)) {
+            log.warn("권한 없는 삭제 시도 - 게시글: {}, 시도자: {}", boardIdx, userId);
+            return ApiResponse.failure("본인이 작성한 게시글만 삭제할 수 있습니다.");
+        }
+        
+        try {
+            // 3. 논리 삭제 처리
+            boardRepository.deleteById(boardIdx);
+            
+            return ApiResponse.success("게시글이 성공적으로 삭제되었습니다.");
+            
+        } catch (Exception e) {
+            log.error("게시글 삭제 실패 - 게시글: {}, 사용자: {}, 오류: {}", boardIdx, userId, e.getMessage(), e);
+            return ApiResponse.failure("게시글 삭제 중 오류가 발생했습니다.");
+        }
     }
     
     /**
