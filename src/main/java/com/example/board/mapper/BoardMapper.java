@@ -12,4 +12,10 @@ public interface BoardMapper {
     
     // 게시글 목록 조회 (SELECT) - 삭제되지 않은 게시글만
     List<BoardV0> selectBoardList();
+    
+    // 게시글 삭제 (논리 삭제) - delYn을 'Y'로 변경
+    void deleteBoard(Long idx);
+    
+    // 게시글 수정 - 제목과 내용만 수정 가능
+    void updateBoard(BoardV0 boardV0);
 }

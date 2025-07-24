@@ -26,4 +26,13 @@ public interface CommentWriteService {
      * @param idx 댓글 번호
      */
     void deleteComment(Long idx);
+    
+    /**
+     * 댓글 작성자 권한 확인
+     * SOLID 원칙 적용: SRP - 권한 검증의 단일 책임
+     * @param commentIdx 댓글 번호
+     * @param userId 사용자 ID
+     * @return 작성자가 맞으면 true, 아니면 false
+     */
+    boolean isOwner(Long commentIdx, String userId);
 }

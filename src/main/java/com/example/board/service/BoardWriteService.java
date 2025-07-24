@@ -26,4 +26,13 @@ public interface BoardWriteService {
      * @param idx 삭제할 게시글 번호
      */
     void deleteBoard(Long idx);
+    
+    /**
+     * 게시글 작성자 권한 확인
+     * SOLID 원칙 적용: SRP - 권한 검증의 단일 책임
+     * @param boardIdx 게시글 번호
+     * @param userId 사용자 ID
+     * @return 작성자가 맞으면 true, 아니면 false
+     */
+    boolean isOwner(Long boardIdx, String userId);
 }

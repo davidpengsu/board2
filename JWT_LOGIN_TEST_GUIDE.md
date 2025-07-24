@@ -107,10 +107,82 @@ GET http://localhost:8080/comment/board/1
 GET http://localhost:8080/comment
 ```
 
-### 9. 댓글 삭제 (🔒 인증 필요)
+### 9. 댓글 삭제 (🔒 인증 필요 - 본인 작성 댓글만)
 ```
 DELETE http://localhost:8080/comment/1
 Authorization: Bearer YOUR_JWT_TOKEN_HERE
+```
+
+**성공 응답 (본인 댓글):**
+```json
+{
+    "success": true,
+    "message": "댓글이 성공적으로 삭제되었습니다.",
+    "data": null
+}
+```
+
+**실패 응답 (다른 사용자 댓글):**
+```json
+{
+    "success": false,
+    "message": "본인이 작성한 댓글만 삭제할 수 있습니다.",
+    "data": null
+}
+```
+
+### 10. 게시글 수정 (🔒 인증 필요 - 본인 작성 게시글만)
+```
+PUT http://localhost:8080/board/1
+Authorization: Bearer YOUR_JWT_TOKEN_HERE
+Content-Type: application/json
+
+{
+    "title": "수정된 게시글 제목",
+    "content": "수정된 게시글 내용입니다."
+}
+```
+
+**성공 응답 (본인 게시글):**
+```json
+{
+    "success": true,
+    "message": "게시글이 성공적으로 수정되었습니다.",
+    "data": null
+}
+```
+
+**실패 응답 (다른 사용자 게시글):**
+```json
+{
+    "success": false,
+    "message": "본인이 작성한 게시글만 수정할 수 있습니다.",
+    "data": null
+}
+```
+
+### 11. 게시글 삭제 (🔒 인증 필요 - 본인 작성 게시글만)
+```
+DELETE http://localhost:8080/board/1
+Authorization: Bearer YOUR_JWT_TOKEN_HERE
+```
+
+**성공 응답 (본인 게시글):**
+```json
+{
+    "success": true,
+    "message": "게시글이 성공적으로 삭제되었습니다.",
+    "data": null
+}
+```
+
+**실패 응답 (다른 사용자 게시글):**
+```json
+{
+    "success": false,
+    "message": "본인이 작성한 게시글만 삭제할 수 있습니다.",
+    "data": null
+}
 ```
 
 ---
@@ -124,6 +196,9 @@ Authorization: Bearer YOUR_JWT_TOKEN_HERE
 3. **게시글 등록** → 인증된 사용자로 게시글 작성
 4. **댓글 등록** → 인증된 사용자로 댓글 작성
 5. **목록 조회** → 작성자 정보가 포함되어 조회되는지 확인
+6. **본인 글 수정** → 작성자 권한으로 게시글 수정 성공
+7. **본인 글/댓글 삭제** → 작성자 권한으로 삭제 성공
+8. **타인 글 수정/삭제 시도** → 권한 없음으로 403 에러 발생
 
 ### 🚨 에러 케이스 테스트
 
@@ -166,6 +241,31 @@ Content-Type: application/json
 ```
 **예상 응답:** 400 Bad Request
 
+#### 다른 사용자의 게시글 수정/삭제 시도 (권한 없음)
+```
+PUT http://localhost:8080/board/1
+Authorization: Bearer USER2_JWT_TOKEN_HERE
+Content-Type: application/json
+
+{
+    "title": "해킹 시도",
+    "content": "다른 사용자의 글을 수정하려 합니다."
+}
+```
+**예상 응답:** 403 Forbidden
+
+```
+DELETE http://localhost:8080/board/1
+Authorization: Bearer USER2_JWT_TOKEN_HERE
+```
+**예상 응답:** 403 Forbidden
+
+```
+DELETE http://localhost:8080/comment/1  
+Authorization: Bearer USER2_JWT_TOKEN_HERE
+```
+**예상 응답:** 403 Forbidden
+
 ---
 
 ## 📊 Postman Collection 구성
@@ -181,13 +281,19 @@ Content-Type: application/json
 │   ├── GET - 게시글 목록 조회
 │   ├── POST - 게시글 등록 (인증)
 │   ├── GET - 게시글 상세 조회
+│   ├── PUT - 게시글 수정 (본인만)
+│   ├── DELETE - 게시글 삭제 (본인만)
 │   └── POST - 게시글 등록 (인증 없음 - 실패)
 ├── 📁 Comments (Protected)
 │   ├── POST - 댓글 등록 (인증)
 │   ├── GET - 특정 게시글 댓글 조회
 │   ├── GET - 전체 댓글 조회
-│   ├── DELETE - 댓글 삭제 (인증)
+│   ├── DELETE - 댓글 삭제 (본인만)
 │   └── POST - 댓글 등록 (인증 없음 - 실패)
+├── 📁 Authorization Tests
+│   ├── PUT - 타인 게시글 수정 시도 (403)
+│   ├── DELETE - 타인 게시글 삭제 시도 (403)
+│   └── DELETE - 타인 댓글 삭제 시도 (403)
 ```
 
 ---
@@ -235,6 +341,30 @@ if (pm.response.code === 200) {
 - JWT 토큰에서 사용자 정보가 올바르게 추출되는지
 - 인증된 사용자 정보가 게시글/댓글에 자동으로 설정되는지
 
+### 4. 권한 확인 (신규 추가)
+- 본인이 작성한 게시글만 수정/삭제 가능한지
+- 본인이 작성한 댓글만 삭제 가능한지
+- 다른 사용자의 게시글 수정/삭제 시도시 403 에러 발생하는지
+- 논리 삭제가 정상적으로 동작하는지 (`delYn = 'Y'`)
+
 ---
 
-이제 로그인한 사용자만 게시글과 댓글을 작성할 수 있고, 작성자 정보가 자동으로 연동되는 완전한 JWT 인증 시스템이 구축되었습니다! 🎉
+## 🧪 권한 테스트 시나리오 예시
+
+### 1. 두 명의 사용자로 테스트
+```
+1. user1으로 로그인 → 게시글/댓글 작성
+2. user2로 로그인 → user1의 게시글 수정/삭제 시도 → 403 에러 확인
+3. user1으로 다시 로그인 → 본인 게시글 수정/삭제 → 성공 확인
+```
+
+### 2. 수정/삭제 확인 방법
+```
+1. 게시글/댓글 작성 후 목록에서 확인
+2. 수정 API 호출 → 목록에서 변경된 내용 확인
+3. 삭제 API 호출 → 목록 조회 시 해당 항목이 보이지 않는지 확인
+```
+
+---
+
+이제 완전한 권한 관리 시스템이 구축되었습니다! 본인이 작성한 게시글은 수정/삭제가 가능하고, 댓글은 삭제만 가능한 안전한 게시판 API입니다. 🎉

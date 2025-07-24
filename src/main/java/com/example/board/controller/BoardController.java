@@ -95,6 +95,71 @@ public class BoardController {
     }
     
     /**
+     * 게시글 수정 - PUT /board/{idx}
+     * 책임: HTTP 요청 처리 및 응답 반환
+     * 인증된 사용자만 본인이 작성한 게시글을 수정할 수 있음
+     * SOLID 원칙 적용: 
+     * - SRP: 권한 검증은 Service 계층에 위임
+     * - DIP: Service 추상화에 의존하여 비즈니스 로직 처리
+     * - OCP: 새로운 검증 로직 추가 시 확장 가능
+     */
+    @PutMapping("/{idx}")
+    public ResponseEntity<ApiResponse<Void>> updateBoard(
+            @PathVariable Long idx,
+            @RequestBody BoardV0 board,
+            HttpServletRequest request) {
+        
+        // JWT 토큰에서 사용자 ID 추출
+        String token = getTokenFromRequest(request);
+        String userId = jwtTokenUtil.getUserIdFromToken(token);
+        
+        // 작성자 권한 확인 (DIP 적용: Service 계층의 추상화에 의존)
+        if (!boardService.isOwner(idx, userId)) {
+            ApiResponse<Void> response = ApiResponse.failure("본인이 작성한 게시글만 수정할 수 있습니다.");
+            return ResponseEntity.status(403).body(response);
+        }
+        
+        // 수정할 게시글 ID 설정 (PathVariable과 RequestBody 동기화)
+        board.setIdx(idx);
+        
+        // 게시글 수정 처리 (제목과 내용만 수정됨)
+        boardService.updateBoard(board);
+        
+        ApiResponse<Void> response = ApiResponse.success("게시글이 성공적으로 수정되었습니다.");
+        
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * 게시글 삭제 - DELETE /board/{idx}
+     * 책임: HTTP 요청 처리 및 응답 반환
+     * 인증된 사용자만 본인이 작성한 게시글을 삭제할 수 있음
+     * SOLID 원칙 적용: SRP - 권한 검증은 Service 계층에 위임
+     */
+    @DeleteMapping("/{idx}")
+    public ResponseEntity<ApiResponse<Void>> deleteBoard(
+            @PathVariable Long idx,
+            HttpServletRequest request) {
+        
+        // JWT 토큰에서 사용자 ID 추출
+        String token = getTokenFromRequest(request);
+        String userId = jwtTokenUtil.getUserIdFromToken(token);
+        
+        // 작성자 권한 확인 (DIP 적용: Service 계층의 추상화에 의존)
+        if (!boardService.isOwner(idx, userId)) {
+            ApiResponse<Void> response = ApiResponse.failure("본인이 작성한 게시글만 삭제할 수 있습니다.");
+            return ResponseEntity.status(403).body(response);
+        }
+        
+        // 게시글 삭제 처리
+        boardService.deleteBoard(idx);
+        
+        ApiResponse<Void> response = ApiResponse.success("게시글이 성공적으로 삭제되었습니다.");
+        
+        return ResponseEntity.ok(response);
+    }
+
+    /**
      * HTTP 요청에서 JWT 토큰 추출
      */
     private String getTokenFromRequest(HttpServletRequest request) {

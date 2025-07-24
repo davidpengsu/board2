@@ -37,4 +37,20 @@
         ORDER BY b.regDate DESC
     </select>
 
+    <!-- 게시글 삭제 (논리 삭제) -->
+    <update id="deleteBoard" parameterType="Long">
+        UPDATE t_board 
+        SET delYn = 'Y' 
+        WHERE idx = #{idx}
+    </update>
+
+    <!-- 게시글 수정 -->
+    <update id="updateBoard" parameterType="com.example.board.domain.BoardV0">
+        UPDATE t_board 
+        SET title = #{title}, 
+            content = #{content}
+        WHERE idx = #{idx} 
+          AND delYn = 'N'
+    </update>
+
 </mapper>

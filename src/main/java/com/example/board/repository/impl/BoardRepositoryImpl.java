@@ -53,20 +53,22 @@ public class BoardRepositoryImpl implements BoardRepository {
     }
     
     /**
-     * 게시글 수정 (향후 구현)
+     * 게시글 수정
+     * SOLID 원칙 적용: SRP - 데이터 수정의 단일 책임
+     * 비즈니스 로직: 제목과 내용만 수정 가능, 삭제되지 않은 게시글만 수정
+     * DIP 적용: MyBatis Mapper 추상화를 통해 데이터 수정
      */
     @Override
     public void update(BoardV0 board) {
-        // 향후 BoardMapper에 updateBoard 메서드 추가 후 구현
-        throw new UnsupportedOperationException("게시글 수정 기능은 아직 구현되지 않았습니다.");
+        boardMapper.updateBoard(board);
     }
     
     /**
-     * 게시글 삭제 (논리 삭제, 향후 구현)
+     * 게시글 삭제 (논리 삭제)
+     * delYn 컬럼을 'Y'로 변경하여 논리적으로 삭제 처리
      */
     @Override
     public void deleteById(Long idx) {
-        // 향후 BoardMapper에 deleteBoard 메서드 추가 후 구현
-        throw new UnsupportedOperationException("게시글 삭제 기능은 아직 구현되지 않았습니다.");
+        boardMapper.deleteBoard(idx);
     }
 }

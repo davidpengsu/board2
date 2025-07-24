@@ -98,4 +98,21 @@ public class BoardServiceImpl implements BoardService {
     public void deleteBoard(Long idx) {
         boardRepository.deleteById(idx);
     }
+    
+    /**
+     * 게시글 작성자 권한 확인
+     * SOLID 원칙 적용: SRP - 권한 검증의 단일 책임
+     * 비즈니스 로직: 게시글 작성자와 요청자가 동일한지 확인
+     * DIP 적용: Repository 추상화를 통해 데이터 조회
+     * 
+     * @param boardIdx 게시글 번호
+     * @param userId 사용자 ID
+     * @return 작성자가 맞으면 true, 아니면 false
+     */
+    @Override
+    public boolean isOwner(Long boardIdx, String userId) {
+        return boardRepository.findById(boardIdx)
+                .map(board -> board.getWriterId().equals(userId))
+                .orElse(false);
+    }
 }
