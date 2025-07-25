@@ -40,22 +40,10 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public ApiResponse<Void> createComment(CommentV0 comment, String userId) {
-        // 1. 입력값 검증
-        if (comment.getComment() == null || comment.getComment().trim().isEmpty()) {
-            return ApiResponse.failure("댓글 내용은 필수입니다.");
-        }
-        if (comment.getComment().length() > 1000) {
-            return ApiResponse.failure("댓글은 1000자 이내로 입력해주세요.");
-        }
-        if (comment.getBoardIdx() == null) {
-            return ApiResponse.failure("게시글 정보가 없습니다.");
-        }
-        
         try {
-            // 2. 댓글 데이터 설정
+            // Spring Validation으로 입력값 검증 완료됨
+            // Service는 비즈니스 로직만 처리
             comment.setWriterId(userId);
-            
-            // 3. 저장 처리
             commentRepository.save(comment);
             
             return ApiResponse.success("댓글이 성공적으로 등록되었습니다.");
@@ -121,29 +109,39 @@ public class CommentServiceImpl implements CommentService {
     }
     
     /**
-     * 댓글 수정 (ISP 적용: CommentWriteService 인터페이스 구현)
-     * 향후 확장을 위한 메서드
-     * DIP 적용: Repository 추상화를 통해 데이터 수정
+     * 댓글 수정
+     * 실무 원칙: Service에서 권한 검증과 비즈니스 로직 처리
+     * - 댓글 존재 확인
+     * - 작성자 권한 확인
+     * - 입력값 검증
+     * - 성공/실패 결과 반환
      */
     @Override
-    public void updateComment(CommentV0 comment) {
-        commentRepository.update(comment);
+    public ApiResponse<Void> updateComment(Long commentIdx, CommentV0 comment, String userId) {
+        // 1. 댓글 존재 확인
+        CommentV0 existingComment = commentRepository.findById(commentIdx).orElse(null);
+        if (existingComment == null) {
+            return ApiResponse.failure("존재하지 않는 댓글입니다.");
+        }
+        
+        // 2. 작성자 권한 확인
+        if (!existingComment.getWriterId().equals(userId)) {
+            log.warn("권한 없는 댓글 수정 시도 - 댓글: {}, 시도자: {}", commentIdx, userId);
+            return ApiResponse.failure("본인이 작성한 댓글만 수정할 수 있습니다.");
+        }
+        
+        try {
+            // Spring Validation으로 입력값 검증 완료됨
+            // Service는 비즈니스 로직만 처리
+            comment.setIdx(commentIdx);
+            commentRepository.update(comment);
+            
+            return ApiResponse.success("댓글이 성공적으로 수정되었습니다.");
+            
+        } catch (Exception e) {
+            log.error("댓글 수정 실패 - 댓글: {}, 사용자: {}, 오류: {}", commentIdx, userId, e.getMessage(), e);
+            return ApiResponse.failure("댓글 수정 중 오류가 발생했습니다.");
+        }
     }
     
-    /**
-     * 댓글 작성자 권한 확인
-     * SOLID 원칙 적용: SRP - 권한 검증의 단일 책임
-     * 비즈니스 로직: 댓글 작성자와 요청자가 동일한지 확인
-     * DIP 적용: Repository 추상화를 통해 데이터 조회
-     * 
-     * @param commentIdx 댓글 번호
-     * @param userId 사용자 ID
-     * @return 작성자가 맞으면 true, 아니면 false
-     */
-    @Override
-    public boolean isOwner(Long commentIdx, String userId) {
-        return commentRepository.findById(commentIdx)
-                .map(comment -> comment.getWriterId().equals(userId))
-                .orElse(false);
-    }
 }

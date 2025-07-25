@@ -68,4 +68,11 @@
           AND delYn = 'N'
     </update>
 
+    <!-- 게시글 존재 여부 확인 (효율적인 COUNT 쿼리) -->
+    <select id="existsBoardById" parameterType="Long" resultType="int">
+        SELECT COUNT(*) 
+        FROM t_board 
+        WHERE idx = #{idx} AND delYn = 'N'
+    </select>
+
 </mapper>

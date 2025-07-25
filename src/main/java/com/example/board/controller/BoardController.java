@@ -76,10 +76,11 @@ public class BoardController {
     /**
      * 게시글 등록 - POST /board
      * 실무 원칙: Controller는 HTTP 처리만, 모든 비즈니스 로직은 Service에 위임
+     * Spring Validation 적용: @Valid로 입력값 검증 자동화
      */
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> createBoard(
-            @RequestBody BoardV0 board, 
+            @Valid @RequestBody BoardV0 board, 
             HttpServletRequest request) {
         
         // JWT 토큰에서 사용자 ID 추출
@@ -97,11 +98,12 @@ public class BoardController {
     /**
      * 게시글 수정 - PUT /board/{idx}
      * 실무 원칙: Controller는 HTTP 처리만, 모든 비즈니스 로직은 Service에 위임
+     * Spring Validation 적용: @Valid로 입력값 검증 자동화
      */
     @PutMapping("/{idx}")
     public ResponseEntity<ApiResponse<Void>> updateBoard(
             @PathVariable Long idx,
-            @RequestBody BoardV0 board,
+            @Valid @RequestBody BoardV0 board,
             HttpServletRequest request) {
         
         // JWT 토큰에서 사용자 ID 추출

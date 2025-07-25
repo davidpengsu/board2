@@ -21,4 +21,7 @@ public interface BoardMapper {
     
     // 게시글 수정 - 제목과 내용만 수정 가능
     void updateBoard(BoardV0 boardV0);
+    
+    // 게시글 존재 여부 확인 (효율적인 COUNT 쿼리)
+    int existsBoardById(Long idx);
 }

@@ -45,4 +45,11 @@ public interface BoardRepository {
      * @param idx 게시글 ID
      */
     void deleteById(Long idx);
+    
+    /**
+     * 게시글 존재 여부 확인 (효율적인 COUNT 쿼리)
+     * @param idx 게시글 ID
+     * @return 존재하면 true, 아니면 false
+     */
+    boolean existsById(Long idx);
 }

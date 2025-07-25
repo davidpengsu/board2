@@ -23,7 +23,6 @@ public class CommentV0 extends BaseEntity {
     @Size(max = 500, message = "댓글은 500자를 초과할 수 없습니다.")
     private String comment;             // 댓글 내용
     
-    @NotBlank(message = "작성자명은 필수 입력값습니다.")
     @Size(max = 50, message = "작성자명은 50자를 초과할 수 없습니다.")
     private String writerName;
     

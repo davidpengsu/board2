@@ -34,10 +34,11 @@ public class CommentController {
     /**
      * 댓글 등록 - POST /comment
      * 실무 원칙: Controller는 HTTP 처리만, 모든 비즈니스 로직은 Service에 위임
+     * Spring Validation 적용: @Valid로 입력값 검증 자동화
      */
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> createComment(
-            @RequestBody CommentV0 comment,
+            @Valid @RequestBody CommentV0 comment,
             HttpServletRequest request) {
         
         // JWT 토큰에서 사용자 ID 추출

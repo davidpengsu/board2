@@ -71,25 +71,10 @@ public class BoardServiceImpl implements BoardService {
      */
     @Override
     public ApiResponse<Void> createBoard(BoardV0 board, String userId) {
-        // 1. 입력값 검증
-        if (board.getTitle() == null || board.getTitle().trim().isEmpty()) {
-            return ApiResponse.failure("제목은 필수입니다.");
-        }
-        if (board.getTitle().length() > 100) {
-            return ApiResponse.failure("제목은 100자 이내로 입력해주세요.");
-        }
-        if (board.getContent() == null || board.getContent().trim().isEmpty()) {
-            return ApiResponse.failure("내용은 필수입니다.");
-        }
-        if (board.getContent().length() > 4000) {
-            return ApiResponse.failure("내용은 4000자 이내로 입력해주세요.");
-        }
-        
         try {
-            // 2. 게시글 데이터 설정
+            // Spring Validation으로 입력값 검증 완료됨
+            // Service는 비즈니스 로직만 처리
             board.setWriterId(userId);
-            
-            // 3. 저장 처리
             boardRepository.save(board);
             
             return ApiResponse.success("게시글이 성공적으로 등록되었습니다.");
@@ -100,15 +85,6 @@ public class BoardServiceImpl implements BoardService {
         }
     }
     
-    /**
-     * 게시글 존재 여부 확인
-     * 비즈니스 로직: 특정 게시글의 존재 여부를 확인
-     * DIP 적용: Repository 추상화를 통해 데이터 확인
-     */
-    @Override
-    public boolean existsBoard(Long idx) {
-        return boardRepository.findById(idx).isPresent();
-    }
     
     /**
      * 게시글 수정
@@ -132,25 +108,10 @@ public class BoardServiceImpl implements BoardService {
             return ApiResponse.failure("본인이 작성한 게시글만 수정할 수 있습니다.");
         }
         
-        // 3. 입력값 검증
-        if (board.getTitle() == null || board.getTitle().trim().isEmpty()) {
-            return ApiResponse.failure("제목은 필수입니다.");
-        }
-        if (board.getTitle().length() > 100) {
-            return ApiResponse.failure("제목은 100자 이내로 입력해주세요.");
-        }
-        if (board.getContent() == null || board.getContent().trim().isEmpty()) {
-            return ApiResponse.failure("내용은 필수입니다.");
-        }
-        if (board.getContent().length() > 4000) {
-            return ApiResponse.failure("내용은 4000자 이내로 입력해주세요.");
-        }
-        
         try {
-            // 4. 수정할 데이터 설정
+            // Spring Validation으로 입력값 검증 완료됨
+            // Service는 비즈니스 로직만 처리
             board.setIdx(boardIdx);
-            
-            // 5. 수정 처리
             boardRepository.update(board);
             
             return ApiResponse.success("게시글이 성공적으로 수정되었습니다.");
@@ -195,20 +156,4 @@ public class BoardServiceImpl implements BoardService {
         }
     }
     
-    /**
-     * 게시글 작성자 권한 확인
-     * SOLID 원칙 적용: SRP - 권한 검증의 단일 책임
-     * 비즈니스 로직: 게시글 작성자와 요청자가 동일한지 확인
-     * DIP 적용: Repository 추상화를 통해 데이터 조회
-     * 
-     * @param boardIdx 게시글 번호
-     * @param userId 사용자 ID
-     * @return 작성자가 맞으면 true, 아니면 false
-     */
-    @Override
-    public boolean isOwner(Long boardIdx, String userId) {
-        return boardRepository.findById(boardIdx)
-                .map(board -> board.getWriterId().equals(userId))
-                .orElse(false);
-    }
 }

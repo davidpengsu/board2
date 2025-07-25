@@ -70,4 +70,13 @@ public class BoardRepositoryImpl implements BoardRepository {
     public void deleteById(Long idx) {
         boardMapper.deleteBoard(idx);
     }
+    
+    /**
+     * 게시글 존재 여부 확인
+     * 실무 원칙: 효율적인 COUNT 쿼리 사용, 전체 데이터 조회 금지
+     */
+    @Override
+    public boolean existsById(Long idx) {
+        return boardMapper.existsBoardById(idx) > 0;
+    }
 }

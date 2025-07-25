@@ -16,13 +16,9 @@ public interface BoardService {
     // 조회 기능
     List<BoardV0> getBoardList();
     BoardDetailResponse getBoardWithComments(Long idx);
-    boolean existsBoard(Long idx);
     
     // 등록/수정/삭제 기능
     ApiResponse<Void> createBoard(BoardV0 board, String userId);
     ApiResponse<Void> updateBoard(Long boardIdx, BoardV0 board, String userId);
     ApiResponse<Void> deleteBoard(Long boardIdx, String userId);
-    
-    // 권한 확인 (내부 사용)
-    boolean isOwner(Long boardIdx, String userId);
 }

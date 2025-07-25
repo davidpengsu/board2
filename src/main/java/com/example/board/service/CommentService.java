@@ -18,9 +18,6 @@ public interface CommentService {
     
     // 등록/수정/삭제 기능
     ApiResponse<Void> createComment(CommentV0 comment, String userId);
-    void updateComment(CommentV0 comment);
+    ApiResponse<Void> updateComment(Long commentIdx, CommentV0 comment, String userId);
     ApiResponse<Void> deleteComment(Long commentIdx, String userId);
-    
-    // 권한 확인 (내부 사용)
-    boolean isOwner(Long commentIdx, String userId);
 }
